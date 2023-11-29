@@ -1,35 +1,88 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import defaultData from './assets/csvjson.json';
+
+import './App.css';
+import { getIndicators, getIndicatorData } from './utils/data';
+import Chart from './components/Chart';
+import Button from './components/Button';
+import Select from './components/Select';
+
+const indicators = getIndicators(defaultData);
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState([])
+  const [year, setYear] = useState('2022')
+  const [selectedIndicator, setSelectedIndicator] = useState(undefined)
+  const [selectedIndicators, setSelectedIndicators] = useState([])
 
+  const handleClick = (indicator, isActive) => {
+    setSelectedIndicator(indicator);
+    filterData(indicator, isActive);
+  };
+  
+  const handleYear = (selectedYear) => {
+    setYear(selectedYear);
+    filterData(selectedIndicator);
+  }
+  
+  const filterData = (indicator, isActive) => {
+    const newSelectedIndicators = [...selectedIndicators];
+    let newData = data;
+
+    if(isActive){
+    if (newSelectedIndicators.includes(indicator)) {
+      const indexToRemove = newSelectedIndicators.indexOf(indicator);
+      newSelectedIndicators.splice(indexToRemove, 1);
+      newData.splice(indexToRemove, 1);
+    } else {
+      newSelectedIndicators.push(indicator);
+      const indicatorData = getIndicatorData(indicator, defaultData);
+      newData = indicatorData;
+    }
+    } else{
+      newData = [];
+    }
+  
+    setSelectedIndicators(newSelectedIndicators);
+  
+    const filteredData = newData.filter((item) => {
+      return item.Year === parseInt(year);
+    });
+  
+    setData(filteredData);
+  };
+  
+  console.log(data)
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>Overdoses Informations USA</h1>
+      <h2>Charts</h2>
+      {indicators.map((indicator,index) => (
+        <Button
+          key={`${indicator}_${index}`}
+          indicator={indicator}
+          text={indicator}
+          className={selectedIndicators.includes(indicator) ? "indicator selected" : "indicator"}
+          handleClick={handleClick}
+        />
+      ))}
+      <Select 
+        name="year"
+        options={['2015','2016','2018','2019','2020','2021','2022']}
+        defaultOption={year}
+        handleYear={handleYear}
+      />
+      {data.length !== 0 &&
+        <Chart
+          data={data}
+          title="Overdoses"
+          selectedYear={parseInt('2022')}
+        
+        />
+
+      }
     </>
-  )
+  );
 }
 
-export default App
+export default App;

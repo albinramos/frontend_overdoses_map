@@ -40,3 +40,16 @@
 .read-the-docs {
   color: #888;
 }
+
+
+.mode:hover {
+  color: #61dafb;
+  cursor: pointer;
+}
+.selected {
+  background-color: #fabada;
+}
+.leaflet-container{
+  height: 600px;
+  width: 800px;
+}
