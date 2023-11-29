@@ -16,8 +16,14 @@ function App() {
   const [selectedIndicators, setSelectedIndicators] = useState([])
 
   const handleClick = (indicator, isActive) => {
-    setSelectedIndicator(indicator);
-    filterData(indicator, isActive);
+    if (isActive){
+      setSelectedIndicator(indicator);
+      filterData(indicator, isActive);
+
+    }else{
+      setSelectedIndicator('');
+      setData([])
+    }
   };
   
   const handleYear = (selectedYear) => {
@@ -28,8 +34,7 @@ function App() {
   const filterData = (indicator, isActive) => {
     const newSelectedIndicators = [...selectedIndicators];
     let newData = data;
-
-    if(isActive){
+    
     if (newSelectedIndicators.includes(indicator)) {
       const indexToRemove = newSelectedIndicators.indexOf(indicator);
       newSelectedIndicators.splice(indexToRemove, 1);
@@ -38,9 +43,6 @@ function App() {
       newSelectedIndicators.push(indicator);
       const indicatorData = getIndicatorData(indicator, defaultData);
       newData = indicatorData;
-    }
-    } else{
-      newData = [];
     }
   
     setSelectedIndicators(newSelectedIndicators);

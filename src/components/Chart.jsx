@@ -7,14 +7,16 @@ const colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'pink', 'b
 const Chart = ({ title = "chart", data, multi = false, selectedYear }) => {
   const formatData = () => {
       const filteredData = data;
-      const x = filteredData.map((item) => item["Month"]);
-      const y = filteredData.map((item) => item["Data Value"]);
+      const x = filteredData.map((item) => item["Month"])
+      const y = filteredData.map((item) => item["Data Value"])
+      const indicator = filteredData[0]["modo"]
       return [{
         x: x,
         y: y,
         type: type,
         mode: 'lines+markers',
         marker: { color: 'red' },
+        
       }];
     }
 
