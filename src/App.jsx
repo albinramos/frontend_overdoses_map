@@ -41,7 +41,7 @@ function App() {
   
   return (
     <>
-      <h1>Overdoses Informations USA</h1>
+      <h1>Overdose Deaths in USA</h1>
       <div className='year-select'>
         <Select 
           name="year"
