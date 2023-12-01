@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState } from 'react'
 
-const Button = ({ indicator, text, className, handleClick }) => {
-  const [isActive, setIsActive] = useState(false);
+const Button = ({ name, className, handleClick }) => {
+  const [isActive, setIsActive] = useState(false)
 
   const toggleButton = () => {
     setIsActive(!isActive);
-    handleClick(indicator, !isActive);
+    handleClick(name, !isActive);
   };
 
   return (
@@ -13,9 +13,9 @@ const Button = ({ indicator, text, className, handleClick }) => {
       className={isActive ? `${className} active` : className}
       onClick={toggleButton}
     >
-      {text}
+      {name.split(' (')[0]}
     </button>
   );
 };
 
-export default Button;
+export default Button

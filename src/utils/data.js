@@ -1,17 +1,15 @@
-const getIndicators = (data) => {
-    const indicators = data.map((item) => item.Indicator);
-    const uniqueIndicators = [...new Set(indicators)];
-    return uniqueIndicators.sort();
+const getChartNames = (data) => {
+	const chartNames = data.map((item) => item.Indicator)
+	const uniqueChartNames = [...new Set(chartNames)]
+
+	return uniqueChartNames.sort()
 }
 
-const getIndicatorData = (indicator, data) => {
-    return data.filter((item) => {
-        return item.Indicator === indicator;
-    });
+const getChartData = (chartNames, data) => {
+	return data.filter((item) => { return chartNames.includes(item.Indicator) })
 }
-
 
 export  {
-    getIndicators,
-    getIndicatorData
+    getChartNames,
+    getChartData
 }
